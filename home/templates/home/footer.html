@@ -1,0 +1,23 @@
+<br>
+<footer class="footer navbar-bottom py-3" style="background-color:#3deac7">
+    {% if messages %}
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Messages</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>   
+    {% endif %}
+    <div class="container">
+        <p class="text-center text-black m-0"><strong>Copyright &copy; www.mom.net (2023) </strong> Contact vsengo@gmail.com</p>
+        <p class="text-center text-black m-0"> The site serves half and full marathon runners of RTP area of NC. </p>
+    </div>
+</footer>

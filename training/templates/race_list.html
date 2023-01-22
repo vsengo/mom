@@ -1,0 +1,119 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+<script type="text/javascript">
+    function confirmDeleteModal(id){
+        $('#delete_confirm_form').attr('action',"/training/halfMarathonDel"+id);
+        $('#deleteUserModal').modal('show');
+    };    
+    function showRunWeekModal(rw){
+
+        $('#showRunWeek').modal('show');
+    };   
+</script>
+<div class="container-fluid">
+    <div class="row text-center justify-content-center">
+            <div class="card mt-2 mb-2">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong>Runs</strong><br>
+                        {% if userRole == 'EDIT' %}
+                        <a href="{% url 'training:raceAdd' %}" class="btn btn-secondary btn-md">Add a Race</a>
+                        {% endif %}
+                    </div>   
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Numer of weeks</th>
+                                        <th scope="col">Distance</th>
+                                        <th scope="col">Training Start</th>
+                                        <th scope="col">Race Date</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for data in data_list %}
+                                    <tr>
+                                        <td>{{data.name}}</td>
+                                        <td>{{data.numberOfWeeks}}</td>
+                                        <td>{{data.distance}}</td>
+                                        <td>{{data.start}}</td>
+                                        <td>{{data.end}}</td>
+                                        <td>  
+                                            {% if userRole == 'EDIT' %}
+                                            <a href="{% url 'training:runSchedule' data.id %}" class="btn btn-secondary btn-sm"> View Plan</a>
+                                            <a href="{% url 'training:halfMarathonUpd' data.id %}" class="btn btn-secondary btn-sm"> Edit</a>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" onclick="confirmDeleteModal('{{data.id}}')" id="deleteID">
+                                                Delete
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+           <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:red">Confirm you want to Delete the record.</h5>
+                    <form id="delete_confirm_form" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning mr-1" data-dismiss="modal">DELETE</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <p class="modal-title">Click outside this box to Cancel.</p>
+                </div>
+           </div> 
+        </div>
+    </div>
+
+    <div class="modal fade" id="showRunWeek" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+           <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:red">Run Week</h5>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Day</th>
+                                <th scope="col">Detail</th>
+                                <th scope="col">Distance/Minutes</th>
+                                <th scope="col">AvgPace</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id='day_1'></td>
+                                <td id='run_1_detail'></td>
+                                <td id='run_1_distance'> Miles</td>
+                                <td id='run_1_pace'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <p class="modal-title">Click outside this box to Cancel.</p>
+                </div>
+           </div> 
+        </div>
+    </div>
+ </div>               
+{% include 'home/footer.html' %}
+{% endblock content %}
