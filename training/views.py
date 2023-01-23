@@ -12,6 +12,7 @@ from django.contrib  import messages
 from django.db import IntegrityError
 from .models import Run, Xtrain, RunWeek, Race, RunSchedule
 from .forms import RunForm, XtrainForm, RunWeekForm, RaceForm
+from util.date import DateUtil
 
 def getUserRole(user):
     return 'EDIT'
@@ -157,13 +158,15 @@ def runWeekDelView(request,pk):
 
 def runScheduleView(request,pk):
     if request.method == 'GET':
-        print(" pk "+pk)
+        wk=DateUtil.dateWeekStarting()
+
         data = RunSchedule.objects.filter(race_id=pk)
         race = Race.objects.get(id=pk)
         userRole = 'VIEW'
         context={
             'data_list':data,
             'race':race,
+            'week_start':wk,
             'userRole':userRole,
         }
         return render(request = request,template_name = "runschedule.html",context=context)

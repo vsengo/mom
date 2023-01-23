@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import timedelta
+from datetime import timedelta, datetime,date
 
 # Create your models here.
 class Run(models.Model):
@@ -10,7 +10,15 @@ class Run(models.Model):
 
     def __str__(self):
         return "%s"%(self.name)
-
+    
+    def avgPaceInMin(self):
+        m=int(self.avgPace)
+        s = 60*(self.avgPace - m)
+        dt= date.today()
+        return datetime(dt.year,dt.month,dt.day,minute=m,second=s)
+    
+    
+    
 class Xtrain(models.Model):
     name = models.CharField(max_length=64)
     minutes = models.SmallIntegerField()
