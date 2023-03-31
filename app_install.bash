@@ -19,6 +19,6 @@ cd ..
 	tar -cvf $f  ${appName}/accounts ${appName}/home ${appName}/mom  ${appName}/util ${appName}/training ${appName}/db.sqlite3 ${appName}/manage.py ${appName}/requirement.txt 
 	gzip $f
 
-	scp -i  $keyDir  $f.gz  ec2-user@34.229.92.71:~/.
+	scp -i  $keyDir  $f.gz  ec2-user@52.55.52.125:~/.
 fi
 

@@ -158,10 +158,10 @@ def runWeekDelView(request,pk):
 
 def runScheduleView(request,pk):
     if request.method == 'GET':
-        wk=DateUtil.dateWeekStarting()
-
+       
         data = RunSchedule.objects.filter(race_id=pk)
         race = Race.objects.get(id=pk)
+        wk=DateUtil.dateWeekStarting(race.start)
         userRole = 'VIEW'
         context={
             'data_list':data,

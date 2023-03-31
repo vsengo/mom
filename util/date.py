@@ -10,7 +10,11 @@ class DateUtil:
         return year
     
     @staticmethod
-    def dateWeekStarting():
+    def dateWeekStarting(d):
         dt = date.today()
-        return dt - timedelta(days=dt.weekday())
+        if dt < d:
+            print(d)
+            return d
+        else:
+            return dt - timedelta(days=dt.weekday())
 
