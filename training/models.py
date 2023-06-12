@@ -28,6 +28,7 @@ class Xtrain(models.Model):
     def __str__(self):
         return self.name
 
+
 class RunWeek(models.Model):
     WEEKDAYS = [
         ('MONDAY','Monday'),
