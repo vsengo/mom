@@ -1,27 +1,23 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import re_path
-from .views import runAddView, runListView, runDelView, runUpdView
-from .views import xtrainAddView, xtrainDelView, xtrainListView, xtrainUpdView
-from .views import runWeekAddView, runWeekDelView, runWeekListView, runWeekUpdView, runScheduleView
-from .views import halfMarathonAddView, halfMarathonDelView, halfMarathonListView, halfMarathonUpdView
+from .views import activityAddView, activityListView, activityDelView, activityUpdView
+from .views import weeklyActivityAddView, weeklyActivityDelView, weeklyActivityListView, weeklyActivityUpdView
+from .views import halfMarathonAddView, halfMarathonDelView, halfMarathonListView, halfMarathonUpdView, trainingView, runWeekView
 
 urlpatterns = [
-    re_path(r'runList', runListView, name='runList'),
-    re_path(r'runAdd',  runAddView,  name='runAdd'),
-    re_path(r'runDel(?P<pk>\d+)', runDelView, name='runDel'),
-    re_path(r'runUpd(?P<pk>\d+)', runUpdView,  name='runUpd'),
-    re_path(r'xtrainList', xtrainListView, name='xtrainList'),
-    re_path(r'xtrainAdd', xtrainAddView,  name='xtrainAdd'),
-    re_path(r'xtrainDel(?P<pk>\d+)', xtrainDelView, name='xtrainDel'),
-    re_path(r'xtrainUpd(?P<pk>\d+)', xtrainUpdView,  name='xtrainUpd'),
-    re_path(r'runWeekList', runWeekListView, name='runWeekList'),
-    re_path(r'runWeekAdd', runWeekAddView,  name='runWeekAdd'),
-    re_path(r'runWeekDel(?P<pk>\d+)', runWeekDelView, name='runWeekDel'),
-    re_path(r'runWeekUpd(?P<pk>\d+)', runWeekUpdView,  name='runWeekUpd'),
-    re_path(r'raceSchedule(?P<pk>\d+)', runScheduleView,  name='runSchedule'),
+    re_path(r'activityList', activityListView, name='activityList'),
+    re_path(r'activityAdd',  activityAddView,  name='activityAdd'),
+    re_path(r'activityDel(?P<pk>\d+)', activityDelView, name='activityDel'),
+    re_path(r'activityUpd(?P<pk>\d+)', activityUpdView,  name='activityUpd'),
+    re_path(r'weeklyActivityList', weeklyActivityListView, name='weeklyActivityList'),
+    re_path(r'weklyActivityAdd', weeklyActivityAddView,  name='weeklyActivityAdd'),
+    re_path(r'weeklyActivityDel(?P<pk>\d+)', weeklyActivityDelView, name='weeklyActivityDel'),
+    re_path(r'weeklyActivityUpd(?P<pk>\d+)', weeklyActivityUpdView,  name='weeklyActivityUpd'),
+    re_path(r'trainingList(?P<pk>\d+)', trainingView,  name='trainingList'),
+    re_path(r'runweekList(?P<pk>\d+)', runWeekView,  name='runweekList'),
     re_path(r'halfMarathonList', halfMarathonListView, name='halfMarathonList'),
-    re_path(r'raceAdd', halfMarathonAddView,  name='raceAdd'),
+    re_path(r'raceAdd', halfMarathonAddView,  name='raceAdd'), 
     re_path(r'halfMarathonDel(?P<pk>\d+)', halfMarathonDelView, name='halfMarathonDel'),
     re_path(r'halfMarathonUpd(?P<pk>\d+)', halfMarathonUpdView,  name='halfMarathonUpd'),
 ]

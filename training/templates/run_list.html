@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
     function confirmDeleteModal(id){
-        $('#delete_confirm_form').attr('action',"/training/runDel"+id);
+        $('#delete_confirm_form').attr('action',"/training/activityDel"+id);
         $('#deleteUserModal').modal('show');
     };    
 </script>
@@ -15,7 +15,7 @@
                     <div class="col-sm-12">
                         <strong>Runs</strong><br>
                         {% if userRole == 'EDIT' %}
-                        <a href="{% url 'training:runAdd' %}" class="btn btn-secondary btn-md">Add Run</a>
+                        <a href="{% url 'training:activityAdd' %}" class="btn btn-secondary btn-md">Add Run</a>
                         {% endif %}
                         </div>   
                 </div>
@@ -30,7 +30,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Detail</th>
                                     <th scope="col">Distance</th>
-                                    <th scope="col">AvgPace</th>
+                                    <th scope="col">Minutes</th>
 
                                     {% if userRole == 'EDIT' %}
                                     <th scope="col">Update </th>
@@ -45,9 +45,9 @@
                                     <td>{{tx.name}}</td>
                                     <td>{{tx.detail}}</td>
                                     <td>{{tx.distance}}</td>
-                                    <td>{{tx.avgPace}}</td>
+                                    <td>{{tx.minutes}}</td>
                                     {% if userRole == 'EDIT' %}
-                                    <td><a href="{% url 'training:runUpd' tx.id %}" class="btn btn-danger btn-md">Edit</a></td>
+                                    <td><a href="{% url 'training:activityUpd' tx.id %}" class="btn btn-danger btn-md">Edit</a></td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="confirmDeleteModal('{{tx.id}}')" id="deleteID">
                                             Delete

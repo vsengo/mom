@@ -34,13 +34,18 @@
                 <div class="dropdown">                        
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Half Marathon </a> 
                         <ul class="dropdown-menu"> 
-                        <li><a class="dropdown-item" href={% url 'training:runSchedule' 1  %}>Run Walk </a></li>
-                        <li><a class="dropdown-item" href={% url 'training:runSchedule' 3  %}>Race 13.1 </a></li>
+                        <li><a class="dropdown-item" href={% url 'training:trainingList' 1  %}>Run Walk </a></li>
+                        <li><a class="dropdown-item" href={% url 'training:trainingList' 1  %}>Race 13.1 </a></li>
                         </ul>
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Full Marathon</a>    
+                <div class="dropdown">                        
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Full Marathon </a> 
+                    <ul class="dropdown-menu"> 
+                    <li><a class="dropdown-item" href={% url 'training:runweekList' 1  %}>Chicago Marathon </a></li>
+                    </ul>
+                </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Cross Training</a>    
@@ -54,10 +59,9 @@
                         <li><a class="dropdown-item" href={% url 'accounts:member' %}>Profile</a></li>
                         <hr>
                         {% if user.is_staff %}
-                        <li><a class="dropdown-item" href={% url 'training:runList' %}>Runs</a></li>
-                        <li><a class="dropdown-item" href={% url 'training:xtrainList' %}>Cross Train</a></li>
-                        <li><a class="dropdown-item" href={% url 'training:runWeekList' %}>Run Week</a></li>
-                        <li><a class="dropdown-item" href={% url 'training:halfMarathonList' %}>Half Marathon</a></li>
+                        <li><a class="dropdown-item" href={% url 'training:activityList' %}>Runs</a></li>
+                        <li><a class="dropdown-item" href={% url 'training:weeklyActivityList' %}>Training</a></li>
+                        <li><a class="dropdown-item" href={% url 'training:halfMarathonList' %}>Races</a></li>
                         {% endif %}
                         </ul>
                     {% else %}    

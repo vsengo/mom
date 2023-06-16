@@ -13,8 +13,10 @@ class DateUtil:
     def dateWeekStarting(d):
         dt = date.today()
         if dt < d:
-            print(d)
-            return d
+           return (d,0)
         else:
-            return dt - timedelta(days=dt.weekday())
+            ndt=dt - timedelta(days=dt.weekday())
+            weeks=(ndt - timedelta(date=d))/7
+            return (ndt,weeks)
+
 

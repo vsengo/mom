@@ -17,7 +17,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-12">
-                        <strong>Runs</strong><br>
+                        <strong>Races</strong><br>
                         {% if userRole == 'EDIT' %}
                         <a href="{% url 'training:raceAdd' %}" class="btn btn-secondary btn-md">Add a Race</a>
                         {% endif %}
@@ -48,7 +48,7 @@
                                         <td>{{data.end}}</td>
                                         <td>  
                                             {% if userRole == 'EDIT' %}
-                                            <a href="{% url 'training:runSchedule' data.id %}" class="btn btn-secondary btn-sm"> View Plan</a>
+                                            <a href="{% url 'training:trainingList' data.id %}" class="btn btn-secondary btn-sm"> View Plan</a>
                                             <a href="{% url 'training:halfMarathonUpd' data.id %}" class="btn btn-secondary btn-sm"> Edit</a>
                                             <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" onclick="confirmDeleteModal('{{data.id}}')" id="deleteID">
                                                 Delete
