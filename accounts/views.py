@@ -91,12 +91,7 @@ def deleteMember(request):
 
 @login_required
 def memberView(request):
-    member = Member.objects.get(user_id=request.user.id)
-    user = User.objects.get(id=request.user.id)
-    if request.method == 'GET':
-        transaction = Transaction.objects.all().filter(owner_id=user.id).order_by('-date')
-
-    return render(request = request,template_name = "member.html",context={'member':member, 'transaction_list':transaction})
+    return render(request = request,template_name = "error.html", context={"message":"Under construction"})
 
 @login_required
 def memberUpdView(request):
