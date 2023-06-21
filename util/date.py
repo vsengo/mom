@@ -1,5 +1,5 @@
 from datetime import timedelta, date
-
+import math
 class DateUtil:
 
     @staticmethod
@@ -10,13 +10,10 @@ class DateUtil:
         return year
     
     @staticmethod
-    def dateWeekStarting(d):
+    def dateWeekStarting(raceDay):
         dt = date.today()
-        if dt < d:
-           return (d,0)
-        else:
-            ndt=dt - timedelta(days=dt.weekday())
-            weeks=(ndt - timedelta(date=d))/7
-            return (ndt,weeks)
+        monday=dt - timedelta(days=dt.weekday())
+        ndays=(raceDay - monday)
+        weeks=math.ceil(ndays.days/7)
 
-
+        return (monday,weeks)

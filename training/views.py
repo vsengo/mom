@@ -134,12 +134,12 @@ def trainingView(request,pk):
 def runWeekView(request,pk):
     if request.method == 'GET':
         race = Race.objects.get(id=pk)
-        weekDate, nWeek=DateUtil.dateWeekStarting(race.start)
+        weekDate, nWeek=DateUtil.dateWeekStarting(race.end)
        
         data = Training.objects.filter(race_id=pk)
+        trainWeek = data[0].numberOfWeeks - nWeek
 
-        row = data[nWeek].weeks
-        numWeeks = data[nWeek].numberOfWeeks
+        row = data[trainWeek].weeks
         data_list=[]
         data_list.append(row.monday)
         data_list.append(row.tuesday)
@@ -153,10 +153,12 @@ def runWeekView(request,pk):
         context={
             'data_list':data_list,
             'race':race,
-            'numWeeks':numWeeks,
+            'numWeeks':trainWeek + 1,
             'week_start':weekDate,
             'userRole':userRole,
+        
         }
+    
         return render(request = request,template_name = "runweek.html",context=context)
 
 @login_required
