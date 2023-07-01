@@ -21,4 +21,3 @@ urlpatterns = [
     re_path(r'halfMarathonDel(?P<pk>\d+)', halfMarathonDelView, name='halfMarathonDel'),
     re_path(r'halfMarathonUpd(?P<pk>\d+)', halfMarathonUpdView,  name='halfMarathonUpd'),
 ]
-    

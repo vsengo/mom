@@ -36,7 +36,7 @@
                             <th scope="col">Friday</th>
                             <th scope="col">Saturday</th>
                             <th scope="col">Sunday</th>
-                            <th scope="col">Total</th>
+                            <th scope="col">Total Min</th>
                             {% if userRole == 'EDIT' %}
                             <th scope="col">Update </th>
                             <th scope="col">Delete </th>
@@ -56,7 +56,7 @@
                             <td>{{tx.sunday.name}}</td>
                             <td>{{tx.total}}</td>
                             {% if userRole == 'EDIT' %}
-                            <td><a href="{% url 'training:activityUpd' tx.id %}" class="btn btn-danger btn-md">Edit</a></td>
+                            <td><a href="{% url 'training:weeklyActivityUpd' tx.id %}" class="btn btn-danger btn-md">Edit</a></td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="confirmDeleteModal('{{tx.id}}')" id="deleteID">
                                     Delete

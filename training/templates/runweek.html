@@ -2,7 +2,8 @@
 {% block content %}
 <div class="container-fluid">
     <div style="text-align:center">
-        <h4>{{race.name}} : {{week_start}}</h4>
+        <h4>{{race.name}} : {{race.end}}</h4>
+        <p>Week : {{week_start}} Total Minutes : {{total}} Long Run :{{long_run}} Min </p>
             <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative">
                 <div class="toast-container p-3 top-0 start-50 translate-middle-x">
                     <div class="d-flex align-content-start flex-wrap">

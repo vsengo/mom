@@ -86,8 +86,23 @@ def weeklyActivityUpdView(request,pk):
             if pk != 'x':
                 obj.id=pk
             obj.save()
-
-            print("Saved "+str(pk))
+            total = 0
+            if obj.monday.type == 'RUN':
+                total += obj.monday.minutes
+            if obj.tuesday.type == 'RUN':
+                total += obj.tuesday.minutes
+            if obj.wednesday.type == 'RUN':
+                total += obj.wednesday.minutes
+            if obj.thursday.type == 'RUN':
+                total += obj.thursday.minutes
+            if obj.friday.type == 'RUN':
+                total += obj.friday.minutes
+            if obj.saturday.type == 'RUN':
+                total += obj.saturday.minutes
+            if obj.sunday.type == 'RUN':
+                total += obj.sunday.minutes
+            obj.total = total
+            obj.save()
         else:
             error={'message':'Error in Data input to Run'}
             return render(request,template_name='error.html',context=error)
@@ -149,6 +164,8 @@ def runWeekView(request,pk):
         data_list.append(row.saturday)
         data_list.append(row.sunday)
         
+        long_run = row.saturday.minutes
+
         userRole = 'VIEW'
         context={
             'data_list':data_list,
@@ -156,7 +173,8 @@ def runWeekView(request,pk):
             'numWeeks':trainWeek + 1,
             'week_start':weekDate,
             'userRole':userRole,
-        
+            'total' : row.total,
+            'long_run' : long_run,
         }
     
         return render(request = request,template_name = "runweek.html",context=context)
