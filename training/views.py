@@ -10,9 +10,10 @@ from django.views import generic
 from django.views.generic import UpdateView
 from django.contrib  import messages
 from django.db import IntegrityError
-from .models import Activity, WeeklyActivity, Race, Training
-from .forms import ActivityForm, WeeklyActivityForm, RaceForm
+from .models import Activity, WeeklyActivity, Race, Training, UserRace
+from .forms import ActivityForm, WeeklyActivityForm, RaceForm, UserRaceForm
 from util.date import DateUtil
+from datetime import timedelta
 
 def getUserRole(user):
     return 'EDIT'
@@ -149,10 +150,20 @@ def trainingView(request,pk):
 def runWeekView(request,pk):
     if request.method == 'GET':
         race = Race.objects.get(id=pk)
+        racePace=10
+
+        if request.user.id != None:
+            userRace = UserRace.objects.all().filter(user=request.user).filter(race_id=pk)
+            if userRace:
+                racePace=userRace.first().easyPace
+               
         weekDate, nWeek=DateUtil.dateWeekStarting(race.end)
        
         data = Training.objects.filter(race_id=pk)
-        trainWeek = data[0].numberOfWeeks - nWeek
+        trainWeek=0
+        if nWeek < data[0].numberOfWeeks:
+            trainWeek = data[0].numberOfWeeks - nWeek
+    
 
         row = data[trainWeek].weeks
         data_list=[]
@@ -165,7 +176,8 @@ def runWeekView(request,pk):
         data_list.append(row.sunday)
         
         long_run = row.saturday.minutes
-
+        long_distance= int(long_run/racePace)
+        total_distance = int(row.total/racePace)
         userRole = 'VIEW'
         context={
             'data_list':data_list,
@@ -173,8 +185,8 @@ def runWeekView(request,pk):
             'numWeeks':trainWeek + 1,
             'week_start':weekDate,
             'userRole':userRole,
-            'total' : row.total,
-            'long_run' : long_run,
+            'total' : total_distance,
+            'long_run' : long_distance,
         }
     
         return render(request = request,template_name = "runweek.html",context=context)
@@ -221,3 +233,93 @@ def halfMarathonDelView(request,pk):
     data = Race.objects.get(id=pk)
     data.delete()        
     return redirect('training:halfMarathonList')
+
+@login_required
+def userRaceAddView(request):
+    return userRaceUpdView(request,'x')
+
+@login_required
+def userRaceUpdView(request,pk):
+    if request.method == 'GET':
+        if pk=='x':
+            form = UserRaceForm()
+            race = UserRace()
+        else:
+            race = UserRace.objects.get(id=pk) 
+
+        form  = UserRaceForm(instance = race)
+        form_name="UserRace"
+        return render(request,template_name='common_form.html',context={'form':form, 'form_name':form_name})
+
+    if request.method == 'POST':
+        form = UserRaceForm(request.POST)
+        if form.is_valid():
+            obj=form.save(commit=False)
+            if pk != 'x':
+                obj.id=pk
+            
+            obj.user=request.user
+            avgPace=float(obj.targetTimeInMin/obj.race.distance)
+            obj.longPace=obj.easyPace=avgPace + 1
+            obj.tempoPace=avgPace - 1
+            obj.vo2Pace = avgPace - 1.25
+            obj.speedPace = avgPace - 1.5
+            obj.avgPace = avgPace
+            obj.save()
+
+            print("Saved User Race "+str(pk))
+        else:
+            error={'message':'Error in Data input to Run'}
+            return render(request,template_name='error.html',context=error)
+
+        return redirect('training:activityList')
+    
+@login_required
+def userRaceDelView(request,pk):
+    data = UserRace.objects.get(id=pk)
+    data.delete()        
+    return redirect('training:activityList')
+
+@login_required
+def userRaceListView(request):
+    if request.method == 'GET':
+        data = UserRace.objects.all().filter(user=request.user)
+        userRole = getUserRole(request.user)
+        if not data:
+            return redirect('training:userRaceAdd')
+        else:   
+            data = data.first()
+            return render(request = request,template_name = "userrace_list.html",context={'data':data, 'userRole':userRole})
+        
+@login_required
+def userTrainingListView(request):
+    if request.method == 'GET':
+        data = UserRace.objects.all().filter(user=request.user)
+        userRole = getUserRole(request.user)
+        if not data:
+            return redirect('training:userRaceAdd')
+        else:   
+            userData = data.first()
+            training = Training.objects.all().filter(race=userData.race)
+            weekList = []
+            trainFirst = training.first()
+            numWeeks = trainFirst.numberOfWeeks-1
+            raceDate,weeks = DateUtil.dateWeekStarting(trainFirst.race.end)
+            longMiles=0
+
+            for wk in training:
+                wk.weeks.totalMiles = wk.weeks.total / userData.avgPace
+                if wk.weeks.saturday.type  == 'RUN':
+                    longMiles = wk.weeks.saturday.minutes / userData.avgPace
+                
+                if longMiles==0: 
+                    longMiles = wk.weeks.sunday.minutes / userData.avgPace
+                
+                wk.weeks.longMiles = longMiles
+                tmp = wk.race.end - timedelta(days=numWeeks*7)
+                wk.weeks.startDate= tmp - timedelta(days=tmp.weekday())
+                numWeeks -=1
+                weekList.append(wk.weeks)
+                longMies =0
+
+            return render(request = request,template_name = "usertraining_list.html",context={'userData':userData, 'week_list':weekList})

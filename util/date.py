@@ -17,3 +17,7 @@ class DateUtil:
         weeks=math.ceil(ndays.days/7)
 
         return (monday,weeks)
+
+
+
+

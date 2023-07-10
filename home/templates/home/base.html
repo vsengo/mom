@@ -44,6 +44,7 @@
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Full Marathon </a> 
                     <ul class="dropdown-menu"> 
                     <li><a class="dropdown-item" href={% url 'training:runweekList' 1  %}>Chicago Marathon </a></li>
+                    <li><a class="dropdown-item" href={% url 'training:runweekList' 2  %}>New York Marathon </a></li>
                     </ul>
                 </div>
               </li>
@@ -56,7 +57,9 @@
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{user.first_name}}   </a> 
                         <ul class="dropdown-menu"> 
                         <li><a class="dropdown-item" href={% url 'accounts:logoff' %}>Log Off</a></li>
-                        <li><a class="dropdown-item" href={% url 'accounts:member' %}>Profile</a></li>
+                        <li><a class="dropdown-item" href={% url 'training:userRaceList' %}>Add Race</a></li>
+                        <li><a class="dropdown-item" href={% url 'training:userTrainList' %}>View Training</a></li>
+           
                         <hr>
                         {% if user.is_staff %}
                         <li><a class="dropdown-item" href={% url 'training:activityList' %}>Runs</a></li>
