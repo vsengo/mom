@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from util.widgets import BootstrapDateTimePickerInput
-from .models import Activity, Race, WeeklyActivity, UserRace
+from .models import Activity, Race, WeeklyActivity, UserRace,UserActivity
 
 class ActivityForm(forms.ModelForm):
     class Meta:
@@ -48,6 +48,16 @@ class UserRaceForm(forms.ModelForm):
     
     def save(self,commit=True):
         data = super(UserRaceForm,self).save(commit=False)
+        if commit:
+            data.save()
+        return data
+    
+class UserActivityForm(forms.ModelForm):
+    class Meta:
+        model=UserActivity
+        fields="__all__"
+    def save(self,commit=True):
+        data = super(UserActivityForm,self).save(commit=False)
         if commit:
             data.save()
         return data

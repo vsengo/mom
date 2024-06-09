@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <title>{% block title %}Mind Over Miles{% endblock %}</title>
     {% load static %}
     <link href="{% static 'css/home.css' %}" rel="stylesheet"/>
@@ -34,8 +35,8 @@
                 <div class="dropdown">                        
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Half Marathon </a> 
                         <ul class="dropdown-menu"> 
-                            <li><a class="dropdown-item" href={% url 'training:runweekList'  3  %}> Race 13.1 Durham - Current Week</a></li>
-                            <li><a class="dropdown-item" href={% url 'training:trainingList' 3  %}>Race 13.1 Durham - Full Plan</a></li>
+                            <li><a class="dropdown-item" href={% url 'training:trainingList' 5  %}>TRM Half  - Full Plan</a></li>
+                            <li><a class="dropdown-item" href={% url 'training:trainingList' 3  %}>Dhurham 13.1  - Full Plan</a></li>
                         </ul>
                 </div>
               </li>
@@ -43,8 +44,9 @@
                 <div class="dropdown">                        
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Full Marathon </a> 
                     <ul class="dropdown-menu"> 
-                    <li><a class="dropdown-item" href={% url 'training:runweekList' 2  %}>New York Marathon </a></li>
-                    </ul>
+                    <li><a class="dropdown-item" href={% url 'training:runweekList' 6  %}>Berlin Marathon </a></li>
+                    <li><a class="dropdown-item" href={% url 'training:trainingList' 6  %}>Berlin Marathon  - Full Plan</a></li>
+                </ul>
                 </div>
               </li>
               <li class="nav-item">
@@ -55,15 +57,12 @@
                     {% if user.is_authenticated %}
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{{user.first_name}}   </a> 
                         <ul class="dropdown-menu"> 
-                        <li><a class="dropdown-item" href={% url 'accounts:logoff' %}>Log Off</a></li>
-                        <li><a class="dropdown-item" href={% url 'training:userRaceList' %}>Add Race</a></li>
-                        <li><a class="dropdown-item" href={% url 'training:userTrainList' %}>View Training</a></li>
-           
+                        <li><a class="dropdown-item" href={% url 'accounts:logoff' %}>Log Off</a></li>          
                         <hr>
                         {% if user.is_staff %}
                         <li><a class="dropdown-item" href={% url 'training:activityList' %}>Runs</a></li>
-                        <li><a class="dropdown-item" href={% url 'training:weeklyActivityList' %}>Training</a></li>
                         <li><a class="dropdown-item" href={% url 'training:halfMarathonList' %}>Races</a></li>
+                        <li><a class="dropdown-item" href={% url 'training:weeklyActivityList' %}>Training</a></li>
                         {% endif %}
                         </ul>
                     {% else %}    

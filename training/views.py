@@ -14,6 +14,9 @@ from .models import Activity, WeeklyActivity, Race, Training, UserRace
 from .forms import ActivityForm, WeeklyActivityForm, RaceForm, UserRaceForm
 from util.date import DateUtil
 from datetime import timedelta
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from cgi import parse_header, parse_multipart
+from urllib.parse import parse_qs
 
 def getUserRole(user):
     return 'EDIT'
@@ -323,3 +326,21 @@ def userTrainingListView(request):
                 longMies =0
 
             return render(request = request,template_name = "usertraining_list.html",context={'userData':userData, 'week_list':weekList})
+
+@login_required
+def logActivityView(request,pk):
+    print("In logActivity")
+    if request.method == 'POST':
+        ctype, pdict = parse_header(request.headers['content-type'])
+        if ctype == 'multipart/form-data':
+            postvars = parse_multipart(request.rfile, pdict)
+        elif ctype == 'application/x-www-form-urlencoded':
+            length = int(request.headers['content-length'])
+            postvars = parse_qs(request.body, 
+                    keep_blank_values=1, encoding='utf-8')
+        else:
+            postvars = {}
+
+    
+        return postvars
+        return redirect('training:activityList')

@@ -1,5 +1,30 @@
 {% extends 'home/base.html' %}
 {% block content %}
+<script type="text/javascript">
+    function logActivityModal(id){
+        $('#logActivity_form').attr('action',"/training/logActivity"+id);
+        $('#logActivity').modal('show');
+        console.log("test in ")
+        const json={
+            time:"100",
+            distinace:"3",
+            avgHR:"130",
+        };
+        fetch("/training/logActivity"+id,{
+            method:"POST",
+            headers:{
+                "Accept":"network/json",
+                "content-type":"application/json",
+                "X-CSRToken":csrftoken,
+            },
+            body:JSON.stringify(json),
+        })
+        .then(response=>response.text())
+        .then(data=>{console.log(data)});
+    };    
+
+</script>
+
 <div class="container-fluid">
     <div style="text-align:center">
         <h4>{{race.name}} : {{race.end}}</h4>
@@ -32,7 +57,10 @@
                                     {% elif forloop.counter == 7 %}
                                         <strong>Sunday</strong>
                                     {% endif %}
-                                    <strong>: {{activity.name}}</strong>
+                                <!--button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="logActivityModal('{{activity.id}}')" id="logID">
+                                    Log
+                                </!--button--> 
+
                                 </div>
                                 <div class="toast-body">
                                     {{activity.detail}}<br>
@@ -48,4 +76,40 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+  <div class="modal fade" id="logActivity" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="logModal" hx-target="this">
+      <div class="modal-content">
+        <form id="logActivity_form" method="post">
+            {% csrf_token %}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Log Activity</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></-button>
+        </div>
+      
+        <div class="modal-body">
+            <label id="timeRangeLabelTxt" class="label">Time   :</label>
+            <input type="range" class="range" min="30" max="300" step="1" id="timeRange" oninput="timeRangeLabel.innerText=this.value + ' min'">
+            <label id="timeRangeLabel"> Min</label>
+            <br>
+            <label id="hrLabelText" class="label">Avg HR : </label>
+            <input type="range" class="frange" min="100" max="200" step="1" id="hrRange" oninput="hrLabel.innerText=this.value + 'bpm'">
+            <label id="hrLabel">BPM</label>
+            <br>
+            <label id=distance" class="label">Distance : </label>
+            <input type="range" class="range" min="1" max="26" step="0.5" id="distanceRange" oninput="distanceLabel.innerText=this.value +' mile'">
+            <label id="distanceLabel">Mile</label>
+            <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary mr-1" data-dismiss="modal" onclick="logActivityModal">Save</button>
+        </div>
+    </form>
+    </div>
+    </div>
+  </div> 
+</script>
+
 {% endblock content %}

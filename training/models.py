@@ -83,3 +83,15 @@ class UserRace(models.Model):
     def speedPaceInMin(self):
         return self.paceInMin(self.speedPace)
     
+class UserActivity(models.Model):
+    user =models.ForeignKey(User, on_delete=models.CASCADE,related_name="act_user")
+    race = models.ForeignKey(Race,on_delete=models.CASCADE,related_name="act_userrace")
+    minutes = models.DecimalField(default=0,max_digits=4,decimal_places=0)
+    distance = models.DecimalField(default=0,max_digits=4,decimal_places=1)
+    avgHR = models.DecimalField(default=0,max_digits=4,decimal_places=0)
+    avgPace = models.DecimalField(default=0,max_digits=4,decimal_places=2)
+    updTime = models.DateTimeField(default=datetime.now)
+
+
+
+    

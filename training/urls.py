@@ -4,7 +4,7 @@ from django.urls import re_path
 from .views import activityAddView, activityListView, activityDelView, activityUpdView
 from .views import weeklyActivityAddView, weeklyActivityDelView, weeklyActivityListView, weeklyActivityUpdView
 from .views import halfMarathonAddView, halfMarathonDelView, halfMarathonListView, halfMarathonUpdView, trainingView, runWeekView
-from .views import userRaceAddView, userRaceUpdView, userRaceDelView, userRaceListView, userTrainingListView
+from .views import userRaceAddView, userRaceUpdView, userRaceDelView, userRaceListView, userTrainingListView, logActivityView
 
 urlpatterns = [
     re_path(r'activityList', activityListView, name='activityList'),
@@ -26,5 +26,6 @@ urlpatterns = [
     re_path(r'userRaceDel(?P<pk>\d+)', userRaceDelView,  name='userRaceDel'),
     re_path(r'userRaceList', userRaceListView,  name='userRaceList'),
     re_path(r'userTrainingList', userTrainingListView,  name='userTrainList'),
+    re_path(r'logActivity(?P<pk>\d+)', logActivityView,  name='logActivity'),
 
 ]
